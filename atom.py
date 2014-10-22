@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Here's a very rough start to the atom class.
+# Here's a very rough start to the atom class. Haven't dealt with nearest neighbors yet.
 
 class atom(object):
     
