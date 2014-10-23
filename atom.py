@@ -43,5 +43,4 @@ class atom(object):
     def update_position(self):        
         pass
     
-    def close_file(self):
-        self.f.close()
+    self.f.close() # Close xdatcar file
