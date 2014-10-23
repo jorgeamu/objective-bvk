@@ -32,15 +32,30 @@ class atom(object):
         
     def get_neighbors(self):
         
-        # Getting the num_ids of the first neighbors.        
         for i in range(1,129):
             diff = abs(atom(i,self.xdatcar).position - self.position)            
-                
+            
+            # Getting the num_ids of the first neighbors.        
             if (diff == array((.125,.125,.125))).all() or (diff == array((.875,.125,.125))).all() or \
             (diff == array((.125,.875,.125))).all() or (diff == array((.125,.125,.875))).all() or \
             (diff == array((.875,.875,.125))).all() or (diff == array((.875,.125,.875))).all() or \
             (diff == array((.125,.875,.875))).all() or (diff == array((.875,.875,.875))).all():
-                self.first_nn.append(i)               
+                self.first_nn.append(i)  
+            
+            # Getting the num_ids of the second neighbors.        
+            if (diff == array((.25,0,0))).all() or (diff == array((.75,0,0))).all() or \
+            (diff == array((0,.25,0))).all() or (diff == array((0,.75,0))).all() or \
+            (diff == array((0,0,.25))).all() or (diff == array((0,0,.75))).all():
+                self.second_nn.append(i)
+            
+            # Getting the num_ids of the third neighbors.        
+            if (diff == array((.25,.25,0))).all() or (diff == array((.25,.75,0))).all() or \
+            (diff == array((.75,.25,0))).all() or (diff == array((.75,.75,0))).all() or \
+            (diff == array((.25,0,.25))).all() or (diff == array((.25,0,.75))).all() or \
+            (diff == array((.75,0,.25))).all() or (diff == array((.75,0,.75))).all() or \
+            (diff == array((0,.25,.25))).all() or (diff == array((0,.25,.75))).all() or \
+            (diff == array((0,.75,.25))).all() or (diff == array((0,.75,.75))).all():
+                self.third_nn.append(i)             
         
     def update_position(self):        
         pass
