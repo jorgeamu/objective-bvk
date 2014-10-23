@@ -6,8 +6,7 @@ from numpy import *
 
 class atom(object):
     
-    def __init__(self, atom_type, num_id, xdatcar):
-        self.atom_type = atom_type      # Fe or Ti
+    def __init__(self, num_id, xdatcar):
         self.num_id = num_id            # Number ID (1-128)
         
         self.xdatcar = xdatcar          # This is the string with the name of the XDATCAR file
@@ -19,11 +18,30 @@ class atom(object):
         line = self.f.readline()        # The line with num_id's position in XDATCAR
         
         self.position = array((float(line[3:13]),float(line[15:25]),float(line[27:37])))
-        
-        
-        if self.atom_type == "Fe":
+                
+        if self.num_id <= 64:           # Fe: #1-64
             self.mass = 55.845 # In amu
-        elif self.atom_type == "Ti":
+        else:                           # Ti: #65-128
             self.mass = 47.867 # In amu
         
-    def update_position(self):  
+        # The next variables will be lists containing the num_ids of the nearest neighbors
+        self.first_nn = []
+        self.second_nn = []        
+        
+    def get_neighbors(self):
+        
+        # Getting the num_ids of the first neighbors.        
+        for i in range(1,129):
+            diff = abs(atom(i,self.xdatcar).position - self.position)            
+                
+            if (diff == array((.125,.125,.125))).all() or (diff == array((.875,.125,.125))).all() or \
+            (diff == array((.125,.875,.125))).all() or (diff == array((.125,.125,.875))).all() or \
+            (diff == array((.875,.875,.125))).all() or (diff == array((.875,.125,.875))).all() or \
+            (diff == array((.125,.875,.875))).all() or (diff == array((.875,.875,.875))).all():
+                self.first_nn.append(i)                  
+        
+    def update_position(self):        
+        pass
+    
+    def close_file(self):
+        self.f.close()
